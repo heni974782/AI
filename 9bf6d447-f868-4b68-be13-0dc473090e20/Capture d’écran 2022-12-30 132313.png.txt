@@ -1,0 +1,8 @@
+Abstract. In this paper we present some experiments to automatically clas-
+sify online handwritten text based on capital letters. Although handwritten
+text is not as discriminative as face or voice, we still found some chance for
+gender classification based on handwritten text. Accuracies are up to 74%,
+even in the most challenging case of capital letters.
+
+Keywords: on-line handwriting, gender recognition, capital letters, de-
+identification.

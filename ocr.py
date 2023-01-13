@@ -27,11 +27,11 @@ async def read_images_from_dir(dir_path, lang='eng', write_to_file=False):
     """
 
     converted_text = {}
-    for file_ in os.listdir(dir_path):
-        if file_.endswith(('png', 'jpeg', 'jpg')):
-            text = await read_image(os.path.join(dir_path, file_), lang=lang)
-            converted_text[os.path.join(dir_path, file_)] = text
-    if write_to_file:
+    for file_ in os.listdir(dir_path):          # iterate through the directory 
+        if file_.endswith(('png', 'jpeg', 'jpg')): # find all the files that finishes with PNG JPEG JPG
+            text = await read_image(os.path.join(dir_path, file_), lang=lang) # perform the OCR on the image found
+            converted_text[os.path.join(dir_path, file_)] = text # convert the image file into a dictionary ( key : image name , value : text converted)
+    if write_to_file: # if true : create a new text file in the same directry and write the converted text in the new text file 
         for file_path, text in converted_text.items():
             _write_to_file(text, os.path.splitext(file_path)[0] + ".txt")
     return converted_text
@@ -44,7 +44,7 @@ def _write_to_file(text, file_path):
     with open(file_path, 'w') as fp:
         fp.write(text)
 
-
+#routes to the method needed : read_image (image path) or read_images_from_dir (directory path)
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         print("python3 ocr.py <path>")

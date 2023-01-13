@@ -19,31 +19,32 @@
   </div>
 </body>
 
+<!-- we define the front-end functions to attache a file and extract the text -->
 <script>
   function performOCR() {
-    var files = document.getElementById("image_file").files
-    var formData = new FormData();
-    var endpoint = '/api/v1/extract_text';
-    if (files.length == 1) {
-      formData.append('image', files[0])
+    var files = document.getElementById("image_file").files   // 1 - getting the image file 
+    var formData = new FormData(); // 2- create a new form of data object 
+    var endpoint = '/api/v1/extract_text'; // point at the server endpoint 
+    if (files.length == 1) { // if it's a simple image OCR 
+      formData.append('image', files[0]) //2 - append the first image file to the dataform object  
     }
-    else {
+    else { // if it's a bulk image OCR 
       for (var i = 0; i < files.length; i++) {
         formData.append('image' + i.toString(), files[i])
       }
-      endpoint = '/api/v1/bulk_extract_text';
+      endpoint = '/api/v1/bulk_extract_text'; // point at the second endpoint
     }
 
     $.ajax({
         type: 'POST',
         url: endpoint,
-        data: formData,
+        data: formData, // data type to be sent 
         contentType: false,
         cache: false,
         processData: false,
         success: function(data) {
           if (endpoint == '/api/v1/extract_text') {
-            swal("Converted Text", data.text);
+            swal("Converted Text", data.text); // whatever data comes in the JSON (text) is aleted to the user 
           }
           else {
             swal("Request Recieved", "Converted files will start showing up at the bottom soon!");
@@ -53,6 +54,7 @@
     });
   }
 
+  // repeatedly call the bulk_output every 3 seconds 
   function getConvertedFiles(taskID, numFiles) {
     var checker = setInterval(function(){
       $.ajax({
